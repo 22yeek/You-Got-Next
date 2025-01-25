@@ -10,10 +10,16 @@ app.set('view engine', 'ejs');  // Assuming you are using EJS views
 // Serve static files (CSS, JS, etc.)
 app.use(express.static('public'));
 
+/*app.get('/', (req, res) => {
+  res.render('main'); // Render 'main.ejs'
+});*/
+
 app.get('/', (req, res) => {
-  res.render('main', { // Render 'main.ejs'
-    titleText: 'You Got Next?', // Main heading content
-    clickText: 'Tap to get in the game' // Secondary text content
+  res.render('waitlist', { // Render 'waitlist.ejs'
+    est_wait: 'Estimated wait: None',
+    left_name: 'left???',
+    right_name: 'right???',
+    court_name: 'court???'
   });
 });
 
