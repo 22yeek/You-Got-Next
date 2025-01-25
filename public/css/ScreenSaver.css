@@ -1,0 +1,77 @@
+/* Screen Saver */
+.screen-saver {
+    position: relative;
+    width: 834px;
+    height: 1194px;
+    background: #111D4A;
+  }
+  
+  /* Main Text */
+  .title-text {
+    position: absolute;
+    width: 966px;
+    height: 107px;
+    left: 50%;
+    top: 423px;
+    transform: translateX(-50%);
+    font-family: 'Unlock', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 100px;
+    line-height: 107px;
+    text-align: center;
+    color: #FFCE3A;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: 
+  }
+  
+  /* yellow bar */
+  .yellow-bar {
+    position: absolute;
+    width: 690px;
+    height: 2px;
+    left: 72px;
+    top: 568px;
+    background: #FFCE3A;
+  }
+  
+  /*  blue bar  */
+  .blue-bar {
+    position: absolute;
+    width: 365px;
+    height: 27px;
+    left: 234px;
+    top: 552px;
+    background: #111D4A;
+  }
+  
+  /* Click to start text */
+  .click-text {
+    position: absolute;
+    width: 338px;
+    height: 26px;
+    left: 50%;
+    top: 552px;
+    transform: translateX(-50%);
+    font-family: 'Unlock', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 32px;
+    text-align: center;
+    color: #FFCE3A;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Logo */
+  .our-logo {
+    position: absolute;
+    left: 45.8%;
+    right: 45.8%;
+    top: 51.68%;
+    bottom: 42.46%;
+  }
+
+  
+  

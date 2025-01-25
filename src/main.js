@@ -1,28 +1,22 @@
 // src/main.js
 // main file to run the server that hosts users and queues
 
-// src/main.js
-
 const express = require('express');
-const path = require('path');
 const app = express();
 const port = 3000;
 
-// Set the views folder to the correct location
-app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'ejs');  // Assuming you are using EJS views
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
+// Serve static files (CSS, JS, etc.)
+app.use(express.static('public'));
 
-// Serve static files if needed (for CSS, JS, images)
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Define a route
 app.get('/', (req, res) => {
-  res.render('index', { title: 'My Custom App Title' });
+  res.render('main', { // Render 'main.ejs'
+    titleText: 'You Got Next?', // Main heading content
+    clickText: 'Tap to get in the game' // Secondary text content
+  });
 });
 
-// Start the server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });

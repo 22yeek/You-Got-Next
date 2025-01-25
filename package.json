@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/22yeek/You-Got-Next#readme",
   "dependencies": {
+    "axios": "^1.7.9",
     "express": "^4.21.2"
   }
 }
