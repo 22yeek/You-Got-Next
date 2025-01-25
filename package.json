@@ -1,0 +1,25 @@
+{
+  "name": "you-got-next",
+  "version": "1.0.0",
+  "description": "A reservation and queueing system for recreational and competitive athletics.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/22yeek/You-Got-Next.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/22yeek/You-Got-Next/issues"
+  },
+  "homepage": "https://github.com/22yeek/You-Got-Next#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
