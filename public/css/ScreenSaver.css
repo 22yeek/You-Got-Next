@@ -1,14 +1,98 @@
+* {
+  box-sizing: border-box;
+}
+
 /* Screen Saver */
 .screen-saver {
-    position: relative;
-    width: 834px;
-    height: 1194px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    width: 100%;
+    height: 100vh; /* Full viewport height */
     background: #111D4A;
+    position: relative;
     transition: transform 0.5s ease;
     transform: translateX(0);
   }
-  
-  /* Main Text */
+ 
+/* Screen saver clicked transition */
+.screen-saver.clicked {
+    transform: translateX(100vw);
+}
+
+/* Main Text */
+.title-text {
+  font-weight: 400;
+  font-size: 10vw; /* Responsive font size */
+  line-height: 1.2; /* Proportional line height */
+  text-align: center;
+  color: #FFCE3A;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-bottom: 2rem; /* Space below the title */
+}
+
+/* Bars Container */
+.bars-container {
+  position: relative;
+  width: 80%; /* Responsive width */
+  max-width: 700px; /* Prevents being too wide */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Yellow Bar */
+.yellow-bar {
+  width: 100%; /* Full width of bars container */
+  height: 2px;
+  background: #FFCE3A;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Blue Bar */
+.blue-bar {
+  width: 50%; /* Relative to parent */
+  height: 3vh;
+  background: #111D4A;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* Click-to-start Text */
+.click-text {
+  font-weight: 400;
+  font-size: clamp(1rem, 1.2rem, 2rem);
+  line-height: 1.2;
+  color: #FFCE3A;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+/* Logo */
+.our-logo {
+  position: absolute;
+  margin-top: 10rem;
+  width: clamp(5vw, 10vw, 40vw); /* Responsive logo size */
+  height: auto;
+  transform: translateY (-80%);
+  aspect-ratio: 1 / 1; /* Ensures the logo is square */
+}
+  /*
   .title-text {
     position: absolute;
     width: 966px;
@@ -26,13 +110,6 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     cursor: pointer;
   }
-  
-  /* Screen saver clicked transition */
-    .screen-saver.clicked {
-        transform: translateX(100vw);
-    }
-
-  /* yellow bar */
   .yellow-bar {
     position: absolute;
     width: 690px;
@@ -42,7 +119,7 @@
     background: #FFCE3A;
   }
   
-  /*  blue bar  */
+
   .blue-bar {
     position: absolute;
     width: 365px;
@@ -52,7 +129,6 @@
     background: #111D4A;
   }
   
-  /* Click to start text */
   .click-text {
     position: absolute;
     width: 338px;
@@ -69,8 +145,7 @@
     color: #FFCE3A;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
-  
-  /* Logo */
+
   .our-logo {
     position: absolute;
     left: 45.8%;
@@ -79,5 +154,5 @@
     bottom: 42.46%;
   }
 
-  
+  */
   
