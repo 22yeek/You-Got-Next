@@ -1,7 +1,14 @@
 // Get the screen-saver container
 const screenSaver = document.getElementById('screen-saver');
 
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', function () {
+        window.location.href = '/waitlist'; // Redirect to the /waitlist route
+    });
+});
+
 // Add click event listener
+/*
 screenSaver.addEventListener('click', function() {
     console.log('SS clicked');
 
@@ -14,3 +21,4 @@ screenSaver.addEventListener('click', function() {
         window.location.href = 'src/waitlist';  // Replace with your target URL
     }, 500);  // 500ms corresponds to the duration of the transition
 });
+*/
