@@ -81,6 +81,7 @@
     position: absolute;
     width: 70px;
     height: 51px;
+    top: 33%;
     
     font-family: 'Unlock';
     font-style: normal;
@@ -97,7 +98,7 @@
     position: absolute;
     width: 110px;
     height: 172px;
-    left: 15%;
+    left: 10%;
     bottom: 20%;
 }
 
@@ -117,6 +118,8 @@
     position: absolute;
     top: 80%;
     bottom: 0%;
+    width: 300px;
+    left: -150px;
 
     font-family: 'Unlock';
     font-style: normal;
@@ -134,7 +137,7 @@
     position: absolute;
     width: 110px;
     height: 172px;
-    right: 15%;
+    right: 10%;
     bottom: 20%;
 }
 
@@ -148,12 +151,12 @@
 
 }
 
-
 /* Right name */
 .right-name {
     position: absolute;
     top: 80;
     bottom: 0%;
+
     font-family: 'Unlock';
     font-style: normal;
     font-weight: 400;
