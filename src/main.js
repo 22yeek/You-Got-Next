@@ -64,10 +64,10 @@ app.get('/waitlist', async (req, res) => {
 
     res.render('waitlist', { // Render 'waitlist.ejs'
       est_wait: 'Estimated wait: 20 minutes',
-      left_name: 'Team 1',
-      left_logo: 'default.png',
-      right_name: 'Team 2',
-      right_logo: 'default.png',
+      left_name: leftTeam,
+      left_logo: 'dodgers_logo.png',
+      right_name: rightTeam,
+      right_logo: 'lakers_logo.png',
       court_name: 'Court A',
       teams: teamsData || []
     });
