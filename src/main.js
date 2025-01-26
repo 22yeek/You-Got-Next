@@ -18,7 +18,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-const db = connectDB();
+db = connectDB();
 console.log("Connected to database.");
 db.close();
 
@@ -82,158 +82,115 @@ app.post('/signup', (req, res) => {
       return res.render('signup', { message: 'Error creating captain profile.' });
     }
 
-    result = {
-      captainPID: this.lastID
+    result.captainPID = this.lastID
+
+    console.log("This is ID: " + result.captainPID)
+
+    query = `INSERT INTO Team (tname, status) VALUES (?, ?)`;
+    db.run(query, [team_name, 1], function (err) {
+      if (err) {
+        console.error(err);
+        return res.render('signup', { message: 'Error creating team.' });
+      }
+    });
+
+    query = `INSERT INTO Captain (pid, tname) VALUES (?, ?)`;
+    db.run(query, [result.captainPID, team_name], function (err) {
+      if (err) {
+        console.error(err);
+        return res.render('signup', { message: 'Error creating captain.' });
+      }
+    });
+
+    if(player2) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player2, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player2.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
-  });
 
-  query = `INSERT INTO Team (tname, status) VALUES (?, ?)`;
-  db.run(query, [team_name, 1], function (err) {
-    if (err) {
-      console.error(err);
-      return res.render('signup', { message: 'Error creating team.' });
+    if(player3) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player3, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player3.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
 
-  });
-
-  query = `INSERT INTO Captain (pid, tname) VALUES (?, ?)`;
-  db.run(query, [result.captainPID, team_name], function (err) {
-    if (err) {
-      console.error(err);
-      return res.render('signup', { message: 'Error creating captain.' });
+    if(player4) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player4, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player4.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
+
+    if(player5) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player5, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player5.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
+    }
+    db.close()
+    res.redirect('/waitlist');
   });
-
-  if(player2) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player2, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player2.' });
-      }
-    });
-  }
-
-  if(player2) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player2, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player2.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player2 to team.' });
-      }
-    });
-  }
-
-  if(player3) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player3, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player3.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player3 to team.' });
-      }
-    });
-  }
-
-  if(player4) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player4, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player4.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player4 to team.' });
-      }
-    });
-  }
-
-  if(player5) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player5, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player5.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player5 to team.' });
-      }
-    });
-  }
-
-  db.close()
-  res.redirect('/waitlist');
 });
 
 //Display teams route
 
 app.get('/teams', (req, res) => {
   db = connectDB();
-  db.all('SELECT * FROM Team WHERE status = ?', [1], (err, rows) => {
+  db.all('SELECT tname, COUNT(*) AS count FROM MemberOf GROUP BY tname', (err, rows) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-      console.log(rows);
-
       res.json(rows);
     });
 });
@@ -256,15 +213,6 @@ app.post('/dequeue', (req, res) => {
   });
 });
 
-app.get('/teams'), async (req, res) => {
-  try {
-  const result = await client.query('SELECT * FROM Team')
-  res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  };
-}
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

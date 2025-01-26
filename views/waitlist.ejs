@@ -40,17 +40,16 @@
                 <div class="right-name"><%= right_name %> </div>
             </div>
         </div>
-
         <div class = "queue">
             <h2>Teams in Queue</h2>
                 <ul>
                     <% teams.forEach(function(team) { %>
-                        <li>Team <%= team.team_name %> (# of Players: <%= team.num_players %>)</li>
+                        <li>Team <%= team.tname %> (# of Players: <%= team.count %>)</li>
                     <% }) %>
                 </ul>
         </div>
     </div>
-
+    <button onclick="window.location.href='/signup'">Create New Team</button>
     <!-- Link the external waitScript file -->
     <script src="/scripts/waitScript.js"></script>
 </body>
