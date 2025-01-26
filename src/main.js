@@ -7,19 +7,30 @@ const { Client } = require('pg');
 const app = express();
 const port = 3000;
 
-const client = new Client({
-  connectionString: 'postgres://username:password@host:port/teams'
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('./sqlite3/you_got_next.db')
+
+// Query the data
+db.all('SELECT * FROM Player', [], (err, rows) => {
+  if (err) {
+      throw err;
+  }
+  console.log(rows);  // Print all rows
 });
-client.connect();
+
+// Close the database connection
+db.close();
 
 app.set('view engine', 'ejs');  // Assuming you are using EJS views
-
+// Serve static files (CSS, JS, etc.)
+app.use(express.static('public'));
+/*
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+*/
 
-// Serve static files (CSS, JS, etc.)
-app.use(express.static('public'));
+
 
 /*app.get('/', (req, res) => {
   res.render('main'); // Render 'main.ejs'
@@ -28,14 +39,14 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.render('waitlist', { // Render 'waitlist.ejs'
     est_wait: 'Estimated wait: None',
-    left_name: 'left???',
-    right_name: 'right???',
-    court_name: 'court???'
+    left_name: 'left',
+    right_name: 'right team',
+    court_name: 'Court A'
   });
 });
 
 //Render signup pgage
-app.get('/signup', (req, res) => {
+/*app.get('/signup', (req, res) => {
   res.render('signup', { message: '' });
 });
 
@@ -67,7 +78,7 @@ app.get('/teams'), async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   };
-}
+}*/
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
