@@ -43,11 +43,31 @@ app.get('/waitlist', async (req, res) => {
     const response = await fetch('http://localhost:3000/teams'); // Adjust the URL as necessary
     const teamsData = await response.json(); // Assuming the endpoint returns JSON
 
+    if (response.ok){
+      teamsData.forEach(function(team) {
+        enqueueTeam(team.tname);
+      });
+    }
+
+    const responseCurrent = await fetch('http://localhost:3000/queue/current');
+    if (!responseCurrent.ok) {
+      throw new Error(`Error fetching teams: ${responseCurrent.statusText}`);
+    }
+    
+    const data = await responseCurrent.json();
+    const [leftTeam, rightTeam] = data.teams; // Destructure the first two teams
+
+    const dequeuedTeams = teamsData.splice(0, 2);
+    dequeuedTeams.forEach(function(team) {
+      dequeueTeam(team.tname);
+    });
+
     res.render('waitlist', { // Render 'waitlist.ejs'
       est_wait: 'Estimated wait: None',
-      left_name: 'L?',
+      left_name: leftTeam,
+      right_name: rightTeam,
+      court_name: 'court???',
       left_logo: 'default.png',
-      right_name: 'R?',
       right_logo: 'default.png',
       court_name: 'C?',
       teams: teamsData || []
@@ -85,169 +105,186 @@ app.post('/signup', (req, res) => {
       return res.render('signup', { message: 'Error creating captain profile.' });
     }
 
-    result = {
-      captainPID: this.lastID
+    result.captainPID = this.lastID
+    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.captainPID], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+
+    query = `INSERT INTO Team (tname, status) VALUES (?, ?)`;
+    db.run(query, [team_name, 1], function (err) {
+      if (err) {
+        console.error(err);
+        return res.render('signup', { message: 'Error creating team.' });
+      }
+    });
+
+    query = `INSERT INTO Captain (pid, tname) VALUES (?, ?)`;
+    db.run(query, [result.captainPID, team_name], function (err) {
+      if (err) {
+        console.error(err);
+        return res.render('signup', { message: 'Error creating captain.' });
+      }
+    });
+
+    if(player2) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player2, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player2.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
-  });
 
-  query = `INSERT INTO Team (tname, status) VALUES (?, ?)`;
-  db.run(query, [team_name, 1], function (err) {
-    if (err) {
-      console.error(err);
-      return res.render('signup', { message: 'Error creating team.' });
+    if(player3) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player3, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player3.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
 
-  });
-
-  query = `INSERT INTO Captain (pid, tname) VALUES (?, ?)`;
-  db.run(query, [result.captainPID, team_name], function (err) {
-    if (err) {
-      console.error(err);
-      return res.render('signup', { message: 'Error creating captain.' });
+    if(player4) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player4, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player4.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
     }
+    if(player5) {
+      result = {};
+      query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
+      db.run(query, [player5, 1], function (err) {
+        if (err) {
+          console.error(err);
+          return res.render('signup', { message: 'Error creating player5.' });
+        }
+        result.pid = this.lastID;
+        query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
+        db.run(query, [team_name, result.pid], function (err) {
+          if (err) {
+            console.error(err);
+            return res.render('signup', { message: 'Error adding player2 to team.' });
+          }
+        });
+      });
+    }
+    enqueueTeam(team_name);
+    db.close()
+    res.redirect('/waitlist');
   });
-
-  if(player2) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player2, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player2.' });
-      }
-    });
-  }
-
-  if(player2) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player2, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player2.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player2 to team.' });
-      }
-    });
-  }
-
-  if(player3) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player3, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player3.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player3 to team.' });
-      }
-    });
-  }
-
-  if(player4) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player4, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player4.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player4 to team.' });
-      }
-    });
-  }
-
-  if(player5) {
-    result = {};
-    query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
-    db.run(query, [player5, 1], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error creating player5.' });
-      }
-
-      result = {
-        pid: this.lastID
-      }
-    });
-  
-    query = `INSERT INTO MemberOf (tname, pid) VALUES (?, ?)`;
-    db.run(query, [team_name, result.pid], function (err) {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { message: 'Error adding player5 to team.' });
-      }
-    });
-  }
-
-  db.close();
-  res.redirect('/waitlist');
 });
 
 //Display teams route
 app.get('/teams', (req, res) => {
   db = connectDB();
-  db.all('SELECT * FROM Team WHERE status = ?', [1], (err, rows) => {
+  db.all('SELECT tname, COUNT(*) AS count FROM MemberOf GROUP BY tname', (err, rows) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-
       res.json(rows);
     });
-
   db.close();
 });
 
-//dequeue endpoint
-app.post('/dequeue', (req, res) => {
-  const { team_name } = req.body;
+// Create an in-memory queue
+const teamQueue = [];
+// Function to enqueue a team
+const enqueueTeam = (team) => {
+  teamQueue.push(team); // Add to the end of the array
+};
+
+// Function to dequeue a team
+const dequeueTeam = () => {
+  if (teamQueue.length === 0) return null; // Return null if the queue is empty
+  return teamQueue.shift(); // Remove and return the first element
+};
+
+// Function to peek at the next team without removing it
+const peekNextTeam = () => {
+  if (teamQueue.length === 0) return null;
+  return teamQueue[0]; // Return the first element
+};
+
+// Endpoint to enqueue a team from the database into the in-memory queue
+app.post('/queue', (req, res) => {
+  const { team_name} = req.body;
+
   if (!team_name) {
-    return res.status(400).send('Please provide a team name to dequeue.');
+    return res.status(400).json({ error: 'Team name and number of players are required' });
   }
 
+  // Add the team to the in-memory queue
+  enqueueTeam(team_name);
+  res.status(201).json({ message: 'Team added to the queue.', team_name});
+});
+
+// Endpoint to get the first two teams in the queue
+app.get('/queue/current', (req, res) => {
+  if (teamQueue.length === 0) {
+    return res.status(404).json({ message: 'No teams in the queue.' });
+  }
+
+  const currentTeams = teamQueue.slice(0, 2); // Get the first two teams in the queue
+  res.json({
+    message: 'Teams currently playing.',
+    teams: currentTeams,
+  });
+});
+
+// Endpoint to get the next team in the queue
+app.get('/queue/next', (req, res) => {
+  const nextTeam = peekNextTeam();
+
+  if (!nextTeam) {
+    return res.status(404).json({ message: 'No teams in the queue.' });
+  }
+  res.json({ message: 'Next team in the queue.', team: nextTeam });
+});
+
+// Endpoint to dequeue the next team
+app.delete('/queue/next', (req, res) => {
+  const dequeuedTeam = dequeueTeam();
+
+  if (!dequeuedTeam) {
+    return res.status(404).json({ message: 'No teams in the queue to dequeue.' });
+  }
   db = connectDB();
   // Update the team status to 'inactive' or 'served' when dequeued
   db.run('UPDATE Team SET status = ? WHERE tname = ?', [0, team_name], function (err) {
@@ -255,10 +292,8 @@ app.post('/dequeue', (req, res) => {
       console.error(err);
       return res.status(500).send('Error updating team status.');
     }
-
-    res.send(`Team ${team_name} has been dequeued.`);
   });
-
+  res.json({ message: 'Team dequeued successfully.', team: dequeuedTeam });
   db.close();
 });
 
