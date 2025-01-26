@@ -166,31 +166,34 @@
     bottom: 93.3%;
 }
 
+/* Left Logo */
 .left-logo {
-    display: absolute;
-  
-    /* Define a size for the image container */
-    width: 140px;
-    height: 140px;
+    position: absolute; /* Use absolute positioning */
+    display: flex; /* Use flexbox to center the image */
+    align-items: center; /* Vertically center the image */
+    justify-content: center; /* Horizontally center the image */
+    
+    width: 140px; /* Set the size of the circular container */
+    height: 140px; /* Set the size of the circular container */
     left: 201px;
     top: 188px;
+    
+    border-radius: 50%; /* Makes the container a circle */
+    
+    background-color: #ddd; /* Optional background color */
+    border: 2px solid #ccc; /* Optional border */
+    
+    overflow: hidden; /* Ensures the image fits inside the circle */
+  }
   
-    /* Optional: Make the container round (only if needed) */
-    border-radius: 50%;
+  /* Ensuring the image fits inside the circle */
+  .left-logo img {
+    width: 100%; /* Make the image take up the full width of the container */
+    height: 100%; /* Make the image take up the full height of the container */
+    object-fit: cover; /* Ensures the image covers the entire circle without distortion */
+  }
   
-    /* Add a placeholder background or border if the image fails to load */
-    background-color: #ddd;
-    border: 2px solid #ccc;
-  
-    /* Make sure the image fits inside */
-    overflow: hidden;
-}
 
-.dynamic-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 /* Left team */
 .left-name {
@@ -266,23 +269,29 @@
     color: #000000;
 }
 
-/* right logo*/
+/* Right Logo */
 .right-logo {
-    display: absolute;
-  
-    /* Define a size for the image container */
-    width: 140px;
-    height: 140px;
-    left: 201px;
+    position: absolute; /* Use absolute positioning */
+    display: flex; /* Use flexbox to center the image */
+    align-items: center; /* Vertically center the image */
+    justify-content: center; /* Horizontally center the image */
+    
+    width: 140px; /* Set the size of the circular container */
+    height: 140px; /* Set the size of the circular container */
+    left: 504px;
     top: 188px;
+    
+    border-radius: 50%; /* Makes the container a circle */
+    
+    background-color: #ddd; /* Optional background color */
+    border: 2px solid #ccc; /* Optional border */
+    
+    overflow: hidden; /* Ensures the image fits inside the circle */
+  }
   
-    /* Optional: Make the container round (only if needed) */
-    border-radius: 50%;
+  .right-logo img {
+    width: 100%; /* Make the image take up the full width of the container */
+    height: 100%; /* Make the image take up the full height of the container */
+    object-fit: cover; /* Ensures the image covers the entire circle without distortion */
+  }
   
-    /* Add a placeholder background or border if the image fails to load */
-    background-color: #ddd;
-    border: 2px solid #ccc;
-  
-    /* Make sure the image fits inside */
-    overflow: hidden;
-}

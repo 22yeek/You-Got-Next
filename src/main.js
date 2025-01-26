@@ -44,12 +44,12 @@ app.get('/waitlist', async (req, res) => {
     const teamsData = await response.json(); // Assuming the endpoint returns JSON
 
     res.render('waitlist', { // Render 'waitlist.ejs'
-      est_wait: 'Estimated wait: None',
-      left_name: 'L?',
+      est_wait: 'Estimated wait: 20 minutes',
+      left_name: 'Team 1',
       left_logo: 'default.png',
-      right_name: 'R?',
+      right_name: 'Team 2',
       right_logo: 'default.png',
-      court_name: 'C?',
+      court_name: 'Court A',
       teams: teamsData || []
     });
 
@@ -58,6 +58,7 @@ app.get('/waitlist', async (req, res) => {
     res.status(500).send('Error fetching teams');
   }
 });
+
 
 
 //Render signup pgage
