@@ -18,7 +18,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-const db = connectDB();
+db = connectDB();
 console.log("Connected to database.");
 db.close();
 
@@ -32,8 +32,8 @@ app.use(express.json()); // Parses JSON data
 
 app.get('/', (req, res) => {
   res.render('main', {
-    titleText: 'You got Next?',
-    clickText: 'Click here to start'
+    titleText: 'You Got Next?',
+    clickText: 'Tap to get in the game'
   }); // Render 'main.ejs'
 });
 
@@ -45,11 +45,14 @@ app.get('/waitlist', async (req, res) => {
 
     res.render('waitlist', { // Render 'waitlist.ejs'
       est_wait: 'Estimated wait: None',
-      left_name: 'left???',
-      right_name: 'right???',
-      court_name: 'court???',
+      left_name: 'L?',
+      left_logo: 'default.png',
+      right_name: 'R?',
+      right_logo: 'default.png',
+      court_name: 'C?',
       teams: teamsData || []
     });
+
   } catch (error) {
     console.error('Error fetching teams:', error);
     res.status(500).send('Error fetching teams');
@@ -219,12 +222,11 @@ app.post('/signup', (req, res) => {
     });
   }
 
-  db.close()
+  db.close();
   res.redirect('/waitlist');
 });
 
 //Display teams route
-
 app.get('/teams', (req, res) => {
   db = connectDB();
   db.all('SELECT * FROM Team WHERE status = ?', [1], (err, rows) => {
@@ -232,10 +234,11 @@ app.get('/teams', (req, res) => {
         console.error(err);
         return res.status(500).json({ error: 'Internal server error' });
       }
-      console.log(rows);
 
       res.json(rows);
     });
+
+  db.close();
 });
 
 //dequeue endpoint
@@ -245,6 +248,7 @@ app.post('/dequeue', (req, res) => {
     return res.status(400).send('Please provide a team name to dequeue.');
   }
 
+  db = connectDB();
   // Update the team status to 'inactive' or 'served' when dequeued
   db.run('UPDATE Team SET status = ? WHERE tname = ?', [0, team_name], function (err) {
     if (err) {
@@ -254,17 +258,9 @@ app.post('/dequeue', (req, res) => {
 
     res.send(`Team ${team_name} has been dequeued.`);
   });
-});
 
-app.get('/teams'), async (req, res) => {
-  try {
-  const result = await client.query('SELECT * FROM Team')
-  res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  };
-}
+  db.close();
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
