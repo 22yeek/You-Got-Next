@@ -7,24 +7,6 @@
     background: #E8ECF0;
 }
 
-.button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.button:hover {
-    background-color: #0056b3;
-}
-
-/* Title and logo */
-.title-logo {
-
-}
 /* Estimated wait */
 .est-wait {
     position: absolute;
@@ -60,9 +42,37 @@
     text-align: center;
 
     color: #000000;
-
-
 }
+
+/* Style for the list container */
+.list {
+    position: absolute;
+    width: 834px;
+    top: 745px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+/* Style for list items */
+.list li {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-around; /* Space the team name and player count apart */
+    margin-bottom: 10px; /* Optional: Add space between list items */
+}
+
+/* Style for team name */
+.team-name {
+    text-align: left;
+}
+
+/* Style for player count */
+.player-count {
+    text-align: right;
+}
+
 
 /* Hop in line button */
 .hop-in-line-button {
@@ -79,6 +89,7 @@
     height: 64px;
     left: calc(50% - 220px + 1px); /* Adjusted 440px/2 for clarity */
     top: 589px;
+    cursor: pointer;
 
     background: #111D4A;
     border-radius: 8px;
@@ -102,6 +113,10 @@
     flex: none;
     order: 0;
     flex-grow: 0;
+}
+
+.button:hover {
+    background-color: #0056b3;
 }
 
 
@@ -312,4 +327,3 @@
     height: 100%; /* Make the image take up the full height of the container */
     object-fit: cover; /* Ensures the image covers the entire circle without distortion */
   }
-  

@@ -31,16 +31,19 @@
         <div class="right-logo">
             <img src="/logos/<%= right_logo %>" alt="<%= right_name %> logo">
         </div>
-        <div class = "queue">
-            <h2>Teams in Queue</h2>
-                <ul>
-                    <% teams.forEach(function(team) { %>
-                        <li>Team <%= team.tname %> (# of Players: <%= team.count %>)</li>
-                    <% }) %>
-                </ul>
-        </div>
+        <div class="queue">Queue</div>
+        <ul class="list">
+            <% teams.forEach(function(team) { %>
+                <li>
+                    <span class="team-name"><%= team.tname %> </span>
+                    <span class="player-count"><%= team.count %></span>
+                </li>
+            <% }) %>
+        </ul>
+        
         <div class="est-wait"><%= est_wait %></div>
         <div class="hop-in-line-button">
+            <button onclick="window.location.href='/signup'"></button>
             <span>Hop in line</span>
         </div>
 
@@ -48,8 +51,7 @@
         <div class="team-text">Team</div>
         <div class="size-text">Size</div>
     </div>
-    <button onclick="window.location.href='/signup'">Create New Team</button>
-    <!-- Link the external waitScript file -->
+     <!-- Link the external waitScript file -->
     <script src="/scripts/waitScript.js"></script>
 </body>
 </html>
