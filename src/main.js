@@ -32,8 +32,8 @@ app.use(express.json()); // Parses JSON data
 
 app.get('/', (req, res) => {
   res.render('main', {
-    titleText: 'You got Next?',
-    clickText: 'Click here to start'
+    titleText: 'You Got Next?',
+    clickText: 'Tap to get in the game'
   }); // Render 'main.ejs'
 });
 
@@ -67,8 +67,12 @@ app.get('/waitlist', async (req, res) => {
       left_name: leftTeam,
       right_name: rightTeam,
       court_name: 'court???',
+      left_logo: 'default.png',
+      right_logo: 'default.png',
+      court_name: 'C?',
       teams: teamsData || []
     });
+
   } catch (error) {
     console.error('Error fetching teams:', error);
     res.status(500).send('Error fetching teams');
@@ -182,7 +186,6 @@ app.post('/signup', (req, res) => {
         });
       });
     }
-
     if(player5) {
       result = {};
       query = `INSERT INTO Player (name, verification) VALUES (?, ?)`;
@@ -217,6 +220,7 @@ app.get('/teams', (req, res) => {
       }
       res.json(rows);
     });
+  db.close();
 });
 
 // Create an in-memory queue
@@ -271,7 +275,6 @@ app.get('/queue/next', (req, res) => {
   if (!nextTeam) {
     return res.status(404).json({ message: 'No teams in the queue.' });
   }
-
   res.json({ message: 'Next team in the queue.', team: nextTeam });
 });
 
@@ -282,6 +285,8 @@ app.delete('/queue/next', (req, res) => {
   if (!dequeuedTeam) {
     return res.status(404).json({ message: 'No teams in the queue to dequeue.' });
   }
+  db = connectDB();
+  // Update the team status to 'inactive' or 'served' when dequeued
   db.run('UPDATE Team SET status = ? WHERE tname = ?', [0, team_name], function (err) {
     if (err) {
       console.error(err);
@@ -289,8 +294,8 @@ app.delete('/queue/next', (req, res) => {
     }
   });
   res.json({ message: 'Team dequeued successfully.', team: dequeuedTeam });
+  db.close();
 });
-
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
