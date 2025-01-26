@@ -8,32 +8,29 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-const db = new sqlite3.Database(path.join(__dirname, 'database.db'), (err) => {
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('./sqlite3/you_got_next.db', (err) => {
   if (err) {
-    console.error('Error opening database:', err);
-  } else {
-    console.log('Connected to SQLite3 database.');
-    db.run(
-      /*
-      `CREATE TABLE IF NOT EXISTS teams (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        team_name TEXT NOT NULL,
-        num_players INTEGER NOT NULL,
-        status TEXT
-      )`,
-      */
-     'ALTER TABLE teams ADD COLUMN status TEXT',
-      (err) => {
-        if (err) {
-          console.error('Error creating table:', err);
-        }
-      }
-    );
+     console.error("Error opening database", err);
+  }
+  
+  else {
+    console.log(rows);  // Print all rows
   }
 });
 
-app.set('view engine', 'ejs');  // Assuming you are using EJS views
+/*// Query the data
+db.all('SELECT * FROM Player', [], (err, rows) => {
+  if (err) {
+      throw err;
+  }
+  console.log(rows);  // Print all rows
+});*/
 
+// Close the database connection
+db.close();
+
+app.set('view engine', 'ejs');  // Assuming you are using EJS views
 // Serve static files (CSS, JS, etc.)
 app.use(express.static('public'));
 
@@ -70,7 +67,7 @@ app.get('/waitlist', async (req, res) => {
 
 
 //Render signup pgage
-app.get('/signup', (req, res) => {
+/*app.get('/signup', (req, res) => {
   res.render('signup', { message: '' });
 });
 
@@ -97,8 +94,9 @@ app.post('/signup', (req, res) => {
 });
 
 //Display teams route
+
 app.get('/teams', (req, res) => {
-  db.all('SELECT * FROM teams WHERE status = ?', ['queued'], (err, rows) => {
+  db.all('SELECT * FROM teams WHERE status = ?', [1], (err, rows) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal server error' });
@@ -117,7 +115,7 @@ app.post('/dequeue', (req, res) => {
   }
 
   // Update the team status to 'inactive' or 'served' when dequeued
-  db.run('UPDATE teams SET status = ? WHERE team_name = ?', ['inactive', team_name], function (err) {
+  db.run('UPDATE teams SET status = ? WHERE team_name = ?', [0, team_name], function (err) {
     if (err) {
       console.error(err);
       return res.status(500).send('Error updating team status.');
@@ -126,6 +124,16 @@ app.post('/dequeue', (req, res) => {
     res.send(`Team ${team_name} has been dequeued.`);
   });
 });
+
+app.get('/teams'), async (req, res) => {
+  try {
+  const result = await client.query('SELECT * FROM teams')
+  res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  };
+}*/
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
